@@ -8,7 +8,11 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    `maven-publish`
 }
+
+group = findProperty("group")?.toString() ?: "com.github.shina1024"
+version = findProperty("version")?.toString() ?: "0.0.0-SNAPSHOT"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -26,6 +30,14 @@ dependencies {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
     }
 }
 
